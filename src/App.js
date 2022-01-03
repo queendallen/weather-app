@@ -1,8 +1,8 @@
 import "./App.css";
 import React, {useEffect, useState} from "react";
-import Forecast from "./components/Forecast"
-import CurrentWeather from "./components/CurrentWeather"
-import TempChart from "./components/TempChart"
+import Forecast from "./components/Forecast";
+import CurrentWeather from "./components/CurrentWeather";
+import TempChart from "./components/TempChart";
 
 function App() {
   const [location, setLoc] = useState('London');
@@ -14,7 +14,7 @@ function App() {
       /* fetch data from API
         then convert into JSON format
       */
-      await fetch(`${process.env.REACT_APP_API_URL}/forecast?q=${location}&appid=${process.env.REACT_APP_API_KEY }`)
+      await fetch(`${process.env.REACT_APP_API_URL}/forecast?q=${location}&appid=${process.env.REACT_APP_API_KEY}`)
       .then(res => res.json())
       .then(result => {
         setData(result)
@@ -27,9 +27,9 @@ function App() {
   function handleSubmit(e) {
     if(location !== ""){
       e.preventDefault();
-  } else {
-      alert("Please enter a location");
-  }  
+    } else {
+        alert("Please enter a location");
+    }  
   }
 
   function handleChange(e) {
@@ -39,6 +39,7 @@ function App() {
   /* typeof check since fetch data is async func (app renders return before the API is called)*/
   return (
       <div className="container">
+        {/* Enter a location */} 
         <aside className="currWeather">
           <form onSubmit={handleSubmit}>
             <label htmlFor="location" className="label__">
@@ -53,6 +54,7 @@ function App() {
               onChange={handleChange}
             />
           </form>
+          {/* Handles current weather */} 
           {(typeof data.city != 'undefined') ? (
             <CurrentWeather weatherData={data}/>  
           ):(
@@ -60,9 +62,10 @@ function App() {
           )}
           
         </aside>
+        {/* Handles forecasts for next days */} 
         {(typeof data.city != 'undefined') ? (
           <div className="overview">
-            <TempChart />
+            <TempChart location={location}/>
             <Forecast forecastData={data}/>
           </div>
         ):(

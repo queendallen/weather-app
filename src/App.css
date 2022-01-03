@@ -4,10 +4,10 @@
 
 .container {
   margin: 20vh auto;
-  width: 800px;
+  width: 70%;
   display: grid;
   grid-template-areas: "current overview";
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 30% 70%;
   background-color: #ffeaae;
   padding: 20px;
   border-radius: 5px;
@@ -18,7 +18,7 @@
   text-align: center;
 }
 
-.wind, .humidity {
+.wind, .currWeather .humidity {
   display: inline-block;
   width: 50%;
 }
@@ -37,6 +37,11 @@
 
 .forecast:hover {
   background-color: blue;
+}
+
+#myChart {
+  width: 400px;
+  height: 400px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
