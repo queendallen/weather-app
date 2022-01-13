@@ -1,3 +1,6 @@
+# Weather App
+<img width="1440" alt="The Weather App is contained in a blue box. On the left is the current weather, on the right is a temperature line graph above the forecasts for the next four days." src="https://user-images.githubusercontent.com/42682640/149393358-c557c5b9-2842-437b-8014-402b006f3c7d.png">
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
