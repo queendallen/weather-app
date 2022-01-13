@@ -3,7 +3,6 @@ import React from "react";
 function Forecast({forecastData}){
     let namesWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
     let today = new Date();
-    let temp = ((forecastData.list[0].main.temp - 273.15) * (9/5) + 32).toFixed(0);
 
     return(
         forecastData.list.map((forecast,index) => {
@@ -15,7 +14,7 @@ function Forecast({forecastData}){
                         </h4>
                         <h4 className="temperature">
                             <label htmlFor="temperature">Temperature</label>
-                            <p>{temp}°</p>
+                            <p>{((forecast.main.temp - 273.15) * (9/5) + 32).toFixed(0)}°</p>
                         </h4>
                         <h4 className="humidity">
                             <label htmlFor="humidity">Humidity</label>

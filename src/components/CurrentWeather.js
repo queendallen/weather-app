@@ -25,11 +25,11 @@ function CurrentWeather({weatherData}){
             </h4>
             <h4 className="humidity">
                 <label htmlFor="humidity">Humidity</label>
-                <p>{weatherData.list[0].main.humidity}</p>
+                <p>{weatherData.list[0].main.humidity}%</p>
             </h4>
             <h4 className="wind">
                 <label htmlFor="wind">Wind Speed</label>
-                <p>{weatherData.list[0].wind.speed}</p>
+                <p>{weatherData.list[0].wind.speed} mph</p>
             </h4>
         </section>
     );

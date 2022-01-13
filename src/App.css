@@ -2,20 +2,29 @@
   text-align: center;
 }
 
+h4 p {
+  font-weight: normal;
+}
+
 .container {
-  margin: 20vh auto;
+  margin: 10vh auto;
   width: 70%;
-  display: grid;
-  grid-template-areas: "current overview";
-  grid-template-columns: 30% 70%;
-  background-color: #ffeaae;
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: #d1edf3;
   padding: 20px;
   border-radius: 5px;
 }
 
+.currWeather .label__ {
+  padding-right: 10px;
+}
+
 .currWeather {
-  grid-area: current;
   text-align: center;
+  position: relative;
+  top: 25%;
+  width: 30%
 }
 
 .wind, .currWeather .humidity {
@@ -23,53 +32,62 @@
   width: 50%;
 }
 
+.weather {
+  position: relative;
+  top: 25%;
+}
+
 .overview {
-  grid-area: overview;
-  display: flex;
+  width: 70%
 }
 
 .forecast {
   width: 25%;
   text-align: center;
   background-color: white;
-  border-radius: 5px;
+  display: inline-block;
 }
 
 .forecast:hover {
-  background-color: blue;
+  background-color: #D98A79;
 }
 
-#myChart {
-  width: 400px;
-  height: 400px;
+.overview .forecast:nth-child(2) {
+  border-radius: 5px 0 0 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.overview .forecast:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 768px){
+  .container {
+    width: 80%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media only screen and (max-width: 425px) {
+  .container {
+    flex-flow: column nowrap;
+    margin: 0;
+    padding: 20px 0 0 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  .temperature, .humidity, .wind {
+    margin: 0 auto;
+  }
+
+  .overview, .currWeather, .container {
+    width: 100%;
+  }
+
+  .forecast {
+    width: 45vw;
+    margin: 2vh 2.5vw;
+    
+  }
+
+  .forecast, .overview .forecast:last-child, .overview .forecast:nth-child(2) {
+    border-radius: 5px;
   }
 }

@@ -21,22 +21,34 @@ ChartJS.register(
     Legend
 );
 
-function TempChart(props){
-    const data = {
-        labels: ['1', '2', '3', '4', '5', '6'],
-        datasets: [
-          {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
-          },
-        ],
-      };
+function TempChart({weatherData}){
+  let namesWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+  let today = new Date();
+  let day = today.getDay(); // weekday as a number
 
-    return(
-        <Line id="myChart" data={data}/>
-    );
+  var i, j = 1;
+  let arr = [((weatherData.list[0].main.temp - 273.15) * (9/5) + 32).toFixed(0)];
+  for(i = 5; i < 25; i += 5){
+    arr[j] = ((weatherData.list[i].main.temp - 273.15) * (9/5) + 32).toFixed(0);
+    j ++;
+  }
+
+  const data = {
+      labels: [namesWeek[day], namesWeek[(day + 1) % 7], namesWeek[(day + 2) % 7], namesWeek[(day + 3) % 7]],
+      datasets: [
+        {
+          label: 'Temperature',
+          data: arr,
+          fill: false,
+          backgroundColor: 'rgb(217, 138, 121)',
+          borderColor: 'rgba(217, 138, 121, 0.4)',
+          tension: 0.3,
+        },
+      ],
+    };
+
+  return(
+      <Line id="myChart" data={data}/>
+  );
 }
 export default TempChart;

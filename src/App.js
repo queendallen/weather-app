@@ -10,7 +10,6 @@ function App() {
   
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Location is: ", location);
       /* fetch data from API
         then convert into JSON format
       */
@@ -28,7 +27,7 @@ function App() {
     if(location !== ""){
       e.preventDefault();
     } else {
-        alert("Please enter a location");
+      alert("Please enter a location");
     }  
   }
 
@@ -65,7 +64,7 @@ function App() {
         {/* Handles forecasts for next days */} 
         {(typeof data.city != 'undefined') ? (
           <div className="overview">
-            <TempChart location={location}/>
+            <TempChart weatherData={data}/>
             <Forecast forecastData={data}/>
           </div>
         ):(
