@@ -1,14 +1,17 @@
 import "./App.css";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Forecast from "./components/Forecast";
 import CurrentWeather from "./components/CurrentWeather";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import TempChart from "./components/TempChart";
 
 function App() {
-  const [location, setLoc] = useState('London');
+  const [location, setLocation] = useState("");
   const [data, setData] = useState([]);
   
-  useEffect(() => {
+  async function handleSubmit(e) {
+    e.preventDefault();
     const fetchData = async () => {
       /* fetch data from API
         then convert into JSON format
@@ -17,60 +20,45 @@ function App() {
       .then(res => res.json())
       .then(result => {
         setData(result)
-        console.log(result);
+      }).catch((_e) => {
       });
     }
     fetchData();
-  }, [location]);
-
-  function handleSubmit(e) {
-    if(location !== ""){
-      e.preventDefault();
-    } else {
-      alert("Please enter a location");
-    }  
   }
 
   function handleChange(e) {
-    setLoc(e.target.value);
+    setLocation(e.target.value);
   }
 
-  /* typeof check since fetch data is async func (app renders return before the API is called)*/
   return (
       <div className="container">
-        {/* Enter a location */} 
         <aside className="currWeather">
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="location" className="label__">
-              Your City
-            </label>
+          <form>
+            <div className="search-bar">
             <input
               type="text"
               id="location"
               className="location"
               autoComplete="on"
+              placeholder="Enter location"
               value={location}
               onChange={handleChange}
             />
+            <button onClick={handleSubmit} className="search-button"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            </div>
           </form>
-          {/* Handles current weather */} 
-          {(typeof data.city != 'undefined') ? (
-            <CurrentWeather weatherData={data}/>  
-          ):(
-            <div></div>
-          )}
-          
+          {data?.city && <CurrentWeather data={data.list[0]}/> }
         </aside>
-        {/* Handles forecasts for next days */} 
-        {(typeof data.city != 'undefined') ? (
-          <div className="overview">
-            <TempChart weatherData={data}/>
-            <Forecast forecastData={data}/>
-          </div>
-        ):(
-          <div></div>
-        )}
-        
+
+        <div className="overview">
+        {!data?.city ? 
+          <p className="no-data">No data to display</p> :
+          <>
+            <Forecast data={data}/>
+            <TempChart weatherData={data.list.slice(0, 9)}/>
+          </>
+        }
+        </div>
       </div>
   );
 }

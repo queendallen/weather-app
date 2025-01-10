@@ -1,93 +1,179 @@
-.App {
-  text-align: center;
-}
-
-h4 p {
-  font-weight: normal;
+:root {
+  --border-radius: 10px;
+  --font-size: 1.1em;
+  --header-size: 2em;
+  --subheader-size: 1.5em;
+  --weather-background-color: rgba(255, 255, 255, 0.4);
+  --padding-xs: 1em;
+  --padding-sm: 1.5em;
+  --padding-md: 2em;
+  --padding-lg: 2.5em;
 }
 
 .container {
-  margin: 10vh auto;
-  width: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  height: 60vh;
   display: flex;
   flex-flow: row nowrap;
-  background-color: #d1edf3;
-  padding: 20px;
-  border-radius: 5px;
-}
-
-.currWeather .label__ {
-  padding-right: 10px;
+  background: linear-gradient(#58d4fa, #0445be);
+  padding: var(--padding-lg);
+  border-radius: var(--border-radius);
+  overflow-y: auto;
 }
 
 .currWeather {
-  text-align: center;
-  position: relative;
-  top: 25%;
-  width: 30%
-}
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  
+  .search-bar {
+    display: flex;
 
-.wind, .currWeather .humidity {
-  display: inline-block;
-  width: 50%;
-}
+    .location, .search-button {
+      font-size: var(--font-size);
+      border: none;
+      outline: none;
+      padding: var(--padding-xs);
 
-.weather {
-  position: relative;
-  top: 25%;
+      &:active {
+        outline: 2px solid black;
+      }
+
+      &:focus {
+        border: 2px solid orange;
+      }
+    }
+
+    .location {
+      flex: 1;
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+      background-color: white;
+    }
+
+    .search-button {
+      background-color: black;
+      color: white;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+  }
+
+  .weather {
+    flex: 1;
+    margin-top: var(--padding-md);
+    background-color: var(--weather-background-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--padding-sm);
+
+    .subsection:first-child {
+      text-align: center;
+
+      img {
+        width: 200px;
+        height: 200px;
+      }
+    
+      p {
+        margin: 0;
+
+        &:first-child {
+          font-weight: bold;
+        }
+
+        &.header {
+          font-size: var(--header-size);
+        }
+
+        &.subheader {
+          font-size: var(--subheader-size);
+        }
+      }
+
+    }
+  
+    .subsection:last-child {
+      span {
+        font-weight: bold;
+      }
+  
+      p {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+      }
+    }
+  }
 }
 
 .overview {
-  width: 70%
-}
+  padding: var(--padding-md) var(--padding-lg);
+  width: 70%;
 
-.forecast {
-  width: 25%;
-  text-align: center;
-  background-color: white;
-  display: inline-block;
-}
+  .forecasts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-.forecast:hover {
-  background-color: #D98A79;
-}
+    .forecast {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      border-radius: var(--border-radius);
+      width: 150px;
+      height: 150px;
+      text-align: center;
+      background-color: var(--weather-background-color);
+      box-shadow: 0 0 10px rgba(0, 0,0, 0.1);
+      padding: var(--padding-xs);
 
-.overview .forecast:nth-child(2) {
-  border-radius: 5px 0 0 5px;
-}
+      p {
+        margin: 0;
+        font-size: 1.5em;
 
-.overview .forecast:last-child {
-  border-radius: 0 5px 5px 0;
-}
+        &.temp {
+          position: relative;
+          left: 5px;
+        }
+      }
 
-@media only screen and (max-width: 1024px) and (min-width: 768px){
-  .container {
-    width: 80%;
+      img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .date {
+        font-weight: bold;
+      }
+    }
   }
 }
 
-@media only screen and (max-width: 425px) {
+.no-data {
+  color: white;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1600px) {
   .container {
     flex-flow: column nowrap;
+    align-items: center;
     margin: 0;
-    padding: 20px 0 0 0;
   }
 
-  .temperature, .humidity, .wind {
-    margin: 0 auto;
+  .currWeather, .overview {
+    width: 80%;
   }
 
-  .overview, .currWeather, .container {
-    width: 100%;
-  }
-
-  .forecast {
-    width: 45vw;
-    margin: 2vh 2.5vw;
-    
-  }
-
-  .forecast, .overview .forecast:last-child, .overview .forecast:nth-child(2) {
-    border-radius: 5px;
+  .currWeather {
+    padding-top: var(--padding-lg);
   }
 }

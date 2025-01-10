@@ -1,36 +1,21 @@
-import React from "react";
-function CurrentWeather({weatherData}){
-    let namesMonth = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
-    let namesWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+import { convertTemp } from "./helpers";
 
-    /* Set date */
-    let today = new Date();
-    let day = today.getDay(); // weekday as a number
-    let dayOfMonth = today.getDate(); //day of the month
-    let month = today.getMonth();
-    let mins = today.getMinutes();
-    let ampm = ((today.getHours() >= 12) ? " PM" : " AM");
-    let time = ((today.getHours() > 12) ? (today.getHours() - 12) + ":" + mins + ampm : (today.getHours() + ":" + mins + ampm));
-    let date =  namesWeek[day] + ", " + namesMonth[month] + " " + dayOfMonth + ", " + today.getFullYear();
-
-    let temp = ((weatherData.list[0].main.temp - 273.15) * (9/5) + 32).toFixed(0);
+const CurrentWeather = ({ data }) => {
+    const { main: { temp, feels_like, humidity }, wind: { speed }, weather } = data;
+    const weatherData = weather[0];
     return(
         <section className="weather">
-            <h4 className="date">
-                <label htmlFor="date">{time} <br></br>{date}</label>
-            </h4>
-            <h4 className="temperature">
-                <label htmlFor="tempearture">Temperature</label>
-                <p>{temp}°</p>
-            </h4>
-            <h4 className="humidity">
-                <label htmlFor="humidity">Humidity</label>
-                <p>{weatherData.list[0].main.humidity}%</p>
-            </h4>
-            <h4 className="wind">
-                <label htmlFor="wind">Wind Speed</label>
-                <p>{weatherData.list[0].wind.speed} mph</p>
-            </h4>
+            <div className="subsection">
+                <p className="header">Today</p>
+                <img src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} alt={weatherData.main}/>
+                <p className="header">{convertTemp(temp)}</p>
+                <p className="subheader">{weatherData.description}</p>
+            </div>
+            <div className="subsection">
+                <p><span>Feels Like</span>{convertTemp(feels_like)}</p>
+                <p><span>Humidity</span>{humidity}%</p>
+                <p><span>Wind Speed</span>{speed} mph</p>
+            </div>
         </section>
     );
 }

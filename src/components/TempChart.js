@@ -1,4 +1,4 @@
-import React from "react";
+import { format, parse } from 'date-fns'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -8,8 +8,11 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
   } from 'chart.js';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { convertTemp } from "./helpers";
 
 ChartJS.register(
     CategoryScale,
@@ -18,37 +21,74 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler,
+    ChartDataLabels
 );
 
 function TempChart({weatherData}){
-  let namesWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
-  let today = new Date();
-  let day = today.getDay(); // weekday as a number
-
-  var i, j = 1;
-  let arr = [((weatherData.list[0].main.temp - 273.15) * (9/5) + 32).toFixed(0)];
-  for(i = 5; i < 25; i += 5){
-    arr[j] = ((weatherData.list[i].main.temp - 273.15) * (9/5) + 32).toFixed(0);
-    j ++;
-  }
+  const temps = weatherData.map(({ main: { temp }}) => convertTemp(temp));
+  const times = weatherData.map(({ dt_txt }) => format(parse(dt_txt, "yyyy-MM-dd HH:mm:ss", new Date()), "h:mm a"));
 
   const data = {
-      labels: [namesWeek[day], namesWeek[(day + 1) % 7], namesWeek[(day + 2) % 7], namesWeek[(day + 3) % 7]],
-      datasets: [
-        {
-          label: 'Temperature',
-          data: arr,
-          fill: false,
-          backgroundColor: 'rgb(217, 138, 121)',
-          borderColor: 'rgba(217, 138, 121, 0.4)',
-          tension: 0.3,
-        },
-      ],
-    };
+    labels: times,
+    datasets: [
+      {
+        label: '',
+        data: temps,
+        backgroundColor: 'rgba(255,255,255,0.4)',
+        borderColor: 'white',
+        fill: true,
+      },
+    ],
+  };
 
   return(
-      <Line id="myChart" data={data}/>
+      <Line 
+        id="myChart"
+        data={data} 
+        options={{
+          layout: {
+            padding: {
+              top: 40,
+              bottom: 40,
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+                drawBorder: false,
+              },
+              ticks: {
+                color: "white",
+              }
+            },
+            y: {
+              grid: {
+                display: false,
+                drawBorder: false,
+              },
+              ticks: {
+                display: false,
+              }
+            }
+          },
+          plugins: {
+            datalabels: {
+              align: 'top',
+              color: 'white',
+              font: {
+                weight: 'bold'
+              },
+              display: true,
+            },
+            legend: {
+              display: false,
+            },
+        }
+        }}
+      />
   );
 }
 export default TempChart;

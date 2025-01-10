@@ -1,31 +1,26 @@
-import React from "react";
+import { convertTemp } from "./helpers";
 
-function Forecast({forecastData}){
+const Forecast = ({data}) => {
     let namesWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
     let today = new Date();
 
     return(
-        forecastData.list.map((forecast,index) => {
+        <div className="forecasts">
+        {data.list.map((forecast,index) => {
             if(index % 5 === 0 && index < 25 && index !== 0){
+                const { main: { temp }, weather } = forecast;
                 return (
-                    <section className="forecast" key={index}>
-                        <h4 className="date">
-                            <label htmlFor="date">{namesWeek[(today.getDay() + (index / 5)) % 7]}</label>
-                        </h4>
-                        <h4 className="temperature">
-                            <label htmlFor="temperature">Temperature</label>
-                            <p>{((forecast.main.temp - 273.15) * (9/5) + 32).toFixed(0)}°</p>
-                        </h4>
-                        <h4 className="humidity">
-                            <label htmlFor="humidity">Humidity</label>
-                            <p>{forecast.main.humidity}%</p>
-                        </h4>
-                    </section>
+                    <aside className="forecast" key={index}>
+                        <p className="date">{namesWeek[(today.getDay() + (index / 5)) % 7]}</p>
+                        <img src={`https://openweathermap.org/img/wn/${weather[0].icon}.png`} alt={weather[0].main}/>
+                        <p className="temp">{convertTemp(temp)}</p>
+                    </aside>
                 );
             } else {
                 return null;
             }
-        })
+        })}
+        </div>
     );
 }
 export default Forecast;
